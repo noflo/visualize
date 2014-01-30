@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FBP graph visualizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      background-color: hsl(0, 0%, 0%);
+      font-family: monospace;
+      overflow: hidden;
+      color: white;
+    }
+    a {
+      color: white;
+    }
+    #fbp {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 100px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #fbpinput {
+      width: 100%;
+      height: 100%;
+    }
+    #fbperror {
+      color: red;
+    }
+  </style>
+  <link rel="stylesheet" href="css/the-graph-svg.css">
+
+  <script src="js/kieler-interface.js"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.8.0/react.js"></script>
+
+  <script src="js/fbp.js"></script>
+  <script src="js/the-graph.js"></script>
+  <script src="js/the-graph-graph.js"></script>
+  <script src="js/the-graph-edge.js"></script>
+  <script src="js/font-awesome-unicode-map.js"></script>
+  <script src="js/the-graph-node.js"></script>
+  <script src="js/the-graph-group.js"></script>
+  <script src="js/the-graph-port.js"></script>
+  <script src="js/the-graph-tooltip.js"></script>
+
+</head>
+<body>
+  <div id="fbp">
+    <div id="fbperror"></div>
+    <textarea id="fbpinput" placeholder="Type your FBP here"></textarea>
+  </div>
+  <div id="app"></div>
+  <script type="text/javascript">
+  (function(){
+     "use strict";
+     var fbp = require('fbp');
+     var fbpInput = document.getElementById('fbpinput');
+     var fbpError = document.getElementById('fbperror');
+     window.visualize = function () {
+       var fbpString = fbpInput.value.trim();
+       try {
+         var graphData = fbp.parse(fbpString);
+         fbpError.innerHTML = '';
+         loadGraph(graphData);
+         new KielerOptions().apply();
+       } catch (e) {
+         console.log(e);
+         fbpError.innerHTML = e.message;
+       }
+     };
+
+     fbpInput.addEventListener('keyup', function (event) {
+       if (event.keyCode === 13) {
+         visualize();
+       }
+     });
+     fbpInput.addEventListener('blur', function (event) {
+       visualize();
+     });
+
+     var app = null;
+     window.loadGraph = function (graph) {
+       if (!app) {
+         var width = window.innerWidth;
+         var height = window.innerHeight;
+
+         app = React.renderComponent(
+           TheGraph.App({
+             graph: graph,
+             width: width,
+             height: height
+           }),
+           document.getElementById('app')
+         );
+         window.addEventListener('resize', function(){
+           width = window.innerWidth;
+           height = window.innerHeight;
+           app.setState({
+             width: width,
+             height: height
+           });
+         });
+       } else {
+         app.refs.graph.setState({
+           graph: graph
+         });
+         app.refs.graph.dirty = true;
+       }
+    };
+
+    var KielerOptions = function () {
+      // standard Kieler options
+      this.aligment = 'AUTOMATIC';
+      this.aspectRatio = 1.6;
+      this.borderSpacing = 17;
+      this.debugMode = false;
+      this.direction = 'RIGHT';
+      this.edgeRouting = 'POLYLINE';
+      this.layoutHierarchy = true;
+      // this.nodeLabelPlacement = ???
+      this.portConstraints = 'UNDEFINED';
+      this.portLabelPlacement = 'OUTSIDE';
+      this.priority = 1;
+      this.randomSeed = 1;
+      this.separateConnComp = true;
+      // this.sizeConstraint = ???
+      this.sizeOptions = 'DEFAULT_MINIMUM_SIZE';
+      this.spacing = 20.0;
+      
+      // klay layered options
+      this.crossMin = 'LAYER_SWEEP';        
+      this.cycleBreaking = 'GREEDY';
+      this.edgeSpacingFactor = 0.5;
+      this.feedBackEdges = false;
+      this.fixedAlignment = 'NONE';
+      this.inLayerSpacingFactor = 1;
+      this.interactiveReferencePoint = 'CENTER';
+      this.LabelSide = 'SMART';
+      this.layerConstraint = 'NONE';
+      this.mergePorts = false;
+      this.nodeLayering = 'NETWORK_SIMPLEX';
+      this.nodePlace = 'BRANDES_KOEPF';
+      this.thoroughness = 7;
+
+      this.apply = function () {
+        var event = new CustomEvent("kieler", { detail: this });
+        window.dispatchEvent(event);
+      };
+    }
+  })();
+  </script>
+</body>
+</html>
