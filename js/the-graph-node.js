@@ -16,7 +16,7 @@
     getInitialState: function() {
       return {
         // Random icon just for fun
-        icon: faKeys[ Math.floor(Math.random()*faKeys.length) ]
+        icon: 'gear'
       };
     },
     componentDidMount: function () {
@@ -29,75 +29,12 @@
     },
     mouseX: 0,
     mouseY: 0,
-    onMouseDown: function (event) {
-      // Don't drag graph
-      event.stopPropagation();
-
-      // Touch to mouse
-      var x, y;
-      if (event.touches) {
-        x = event.touches[0].pageX;
-        y = event.touches[0].pageY;
-      } else {
-        x = event.pageX;
-        y = event.pageY;
-      }
-
-      if (event.button !== 0) {
-        // Show context menu
-        this.highlight();
-        return;
-      }
-
-      this.mouseX = x;
-      this.mouseY = y;
-
-      window.addEventListener("mousemove", this.onMouseMove);
-      window.addEventListener("mouseup", this.onMouseUp);
-
-    },
     highlight: function () {
       var highlightEvent = new CustomEvent('the-graph-node-highlight', { 
         'detail': this, 
         'bubbles': true
       });
       this.getDOMNode().dispatchEvent(highlightEvent);
-    },
-    onMouseMove: function (event) {
-      // Don't fire on graph
-      event.stopPropagation();
-
-      // Touch to mouse
-      var x, y;
-      if (event.touches) {
-        x = event.touches[0].pageX;
-        y = event.touches[0].pageY;
-      } else {
-        x = event.pageX;
-        y = event.pageY;
-      }
-
-      var scale = this.props.app.state.scale;
-
-      var deltaX = Math.round( (x - this.mouseX) / scale );
-      var deltaY = Math.round( (y - this.mouseY) / scale );
-      this.props.process.metadata.x += deltaX;
-      this.props.process.metadata.y += deltaY;
-      this.mouseX = x;
-      this.mouseY = y;
-
-      var highlightEvent = new CustomEvent('the-graph-node-move', { 
-        detail: null, 
-        bubbles: true
-      });
-      this.getDOMNode().dispatchEvent(highlightEvent);
-    },
-    onMouseUp: function (event) {
-      // Don't fire on graph
-      event.stopPropagation();
-
-      window.removeEventListener("mousemove", this.onMouseMove);
-      window.removeEventListener("mouseup", this.onMouseUp);
     },
     getTooltipTrigger: function () {
       return this.getDOMNode();
