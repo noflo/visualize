@@ -16,7 +16,7 @@
     getInitialState: function() {
       return {
         // Random icon just for fun
-        icon: 'gear'
+        icon: 'cog'
       };
     },
     componentDidMount: function () {
