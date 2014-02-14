@@ -35,6 +35,7 @@
   </style>
   <link rel="stylesheet" href="css/the-graph-svg.css">
 
+  <script src="js/klaygwt/klaygwt.nocache.js"></script>
   <script src="js/kieler-interface.js"></script>
 
   <script src="js/react-0.8.0.js"></script>
@@ -114,45 +115,46 @@
        }
     };
 
-    var KielerOptions = function () {
-      // standard Kieler options
-      this.aligment = 'AUTOMATIC';
-      this.aspectRatio = 1.6;
-      this.borderSpacing = 17;
-      this.debugMode = false;
-      this.direction = 'RIGHT';
-      this.edgeRouting = 'POLYLINE';
-      this.layoutHierarchy = true;
-      // this.nodeLabelPlacement = ???
-      this.portConstraints = 'UNDEFINED';
-      this.portLabelPlacement = 'OUTSIDE';
-      this.priority = 1;
-      this.randomSeed = 1;
-      this.separateConnComp = true;
-      // this.sizeConstraint = ???
-      this.sizeOptions = 'DEFAULT_MINIMUM_SIZE';
-      this.spacing = 20.0;
-      
-      // klay layered options
-      this.crossMin = 'LAYER_SWEEP';        
-      this.cycleBreaking = 'GREEDY';
-      this.edgeSpacingFactor = 0.5;
-      this.feedBackEdges = false;
-      this.fixedAlignment = 'NONE';
-      this.inLayerSpacingFactor = 1;
-      this.interactiveReferencePoint = 'CENTER';
-      this.LabelSide = 'SMART';
-      this.layerConstraint = 'NONE';
-      this.mergePorts = false;
-      this.nodeLayering = 'NETWORK_SIMPLEX';
-      this.nodePlace = 'BRANDES_KOEPF';
-      this.thoroughness = 7;
+      var KielerOptions = function () {
+        // standard Kieler options
+        this['de.cau.cs.kieler.alignment'] = 'AUTOMATIC';
+        this['de.cau.cs.kieler.aspectRatio'] = 1.6;
+        this['de.cau.cs.kieler.borderSpacing'] = 12;
+        this['de.cau.cs.kieler.debugMode'] = false;
+        this['de.cau.cs.kieler.direction'] = 'RIGHT';
+        this['de.cau.cs.kieler.edgeRouting'] = 'POLYLINE';
+        this['de.cau.cs.kieler.layoutHierarchy'] = true;
+        // this.nodeLabelPlacement = ???
+        this['de.cau.cs.kieler.portConstraints'] = 'UNDEFINED';
+        this['de.cau.cs.kieler.portLabelPlacement'] = 'OUTSIDE';
+        this['de.cau.cs.kieler.priority'] = 1;
+        this['de.cau.cs.kieler.randomSeed'] = 1;
+        this['de.cau.cs.kieler.separateConnComp'] = true;
+        // this.sizeConstraint = ???
+        //this['de.cau.cs.kieler.sizeOptions'] = 'DEFAULT_MINIMUM_SIZE';
+        this['de.cau.cs.kieler.spacing'] = 20.0;
+        
+        // klay layered options
+        this['de.cau.cs.kieler.klay.layered.crossMin'] = 'LAYER_SWEEP';        
+        this['de.cau.cs.kieler.klay.layered.cycleBreaking'] = 'GREEDY';
+        this['de.cau.cs.kieler.klay.layered.edgeSpacingFactor'] = 0.5;
+        this['de.cau.cs.kieler.klay.layered.feedBackEdges'] = false;
+        this['de.cau.cs.kieler.klay.layered.fixedAlignment'] = 'NONE';
+        this['de.cau.cs.kieler.klay.layered.inLayerSpacingFactor'] = 1;
+        //this['de.cau.cs.kieler.klay.layered.interactiveReferencePoint'] = 'CENTER';
+        //this['de.cau.cs.kieler.klay.layered.LabelSide'] = 'SMART';
+        this['de.cau.cs.kieler.klay.layered.layerConstraint'] = 'NONE';
+        this['de.cau.cs.kieler.klay.layered.mergePorts'] = false;
+        this['de.cau.cs.kieler.klay.layered.nodeLayering'] = 'NETWORK_SIMPLEX';
+        this['de.cau.cs.kieler.klay.layered.nodePlace'] = 'LINEAR_SEGMENTS'; // BRANDES_KOEPF is not working on klaygwt
+        this['de.cau.cs.kieler.klay.layered.thoroughness'] = 7;
 
-      this.apply = function () {
-        var event = new CustomEvent("kieler", { detail: this });
-        window.dispatchEvent(event);
+        this.apply = function () {
+          var that = this;
+          var event = new CustomEvent("kieler", { detail: that });
+          window.dispatchEvent(event);
+        };
       };
-    }
   })();
   </script>
 </body>
