@@ -12,37 +12,6 @@ function klayinit () {
     return this;
   };
 
-  // from kielerlayout.js
-  var kielerLayout = function(opts) {
-    // gather information
-    var server = opts.server || "http://localhost:9444";
-    var graph = opts.graph;
-    var options = opts.options || {};
-    var iFormat = opts.iFormat;
-    var oFormat = opts.oFormat;
-    var success = opts.success;
-    var error = opts.error || function() {};
-    
-    // check whether the graph is a string or json
-    if (typeof graph === 'object') {
-      graph = JSON.stringify(graph)
-    }
-    
-    $.ajax({
-      type : 'POST',
-      contentType : 'application/json',
-      url : server + '/live',
-      data : {
-        graph : graph,
-        config : JSON.stringify(options),
-        iFormat : iFormat,
-        oFormat : oFormat
-      },
-      success : success,
-      error : error
-    });
-  };
-
   // encode the original NoFlo graph to a KGraph (KIELER Graph) JSON
   var toKieler = function (graph) {
       var kGraph = {id: 'root',
@@ -158,8 +127,6 @@ console.log(graph);
   // encode the original NoFlo graph and annotate it with layout info from
   // the received KIELER graph
   var toNoFlo = function (oGraph, kGraph) {
-    //kGraph = $.parseJSON(kGraph)[0];
-
     // update oGraph nodes with the new coordinates from KIELER layout
     var processes = oGraph.processes;
     var nodeKeys = Object.keys(processes);

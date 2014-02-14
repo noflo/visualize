@@ -35,8 +35,6 @@
   </style>
   <link rel="stylesheet" href="css/the-graph-svg.css">
 
-  <script src="js/jquery.min.js"></script>
-
   <script src="js/klaygwt/klaygwt.nocache.js"></script>
   <script src="js/kieler-interface.js"></script>
 
@@ -152,8 +150,7 @@
         this['de.cau.cs.kieler.klay.layered.thoroughness'] = 7;
 
         this.apply = function () {
-          var that = {};
-          $.extend(that,this);
+          var that = this;
           var event = new CustomEvent("kieler", { detail: that });
           window.dispatchEvent(event);
         };
