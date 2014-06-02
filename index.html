@@ -21,16 +21,16 @@
   <!-- <link rel="import" href="./bower_components/the-graph/the-graph-nav/the-graph-nav.html" /> -->
 
   <!-- Fonts -->
-  <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="./bower_components/font-awesome/css/font-awesome.min.css" />
   <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400' rel='stylesheet' type='text/css' />
   <style>
     @font-face {
       /* we want the svg version */
       font-family: 'FontAwesomeSVG';
-      src: url('../bower_components/font-awesome/fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg'),
-        url('../bower_components/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'), 
-        url('../bower_components/font-awesome/fonts/fontawesome-webfont.woff?v=4.0.3') format('woff'), 
-        url('../bower_components/font-awesome/fonts/fontawesome-webfont.ttf?v=4.0.3') format('truetype');
+      src: url('./bower_components/font-awesome/fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg'),
+        url('./bower_components/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'), 
+        url('./bower_components/font-awesome/fonts/fontawesome-webfont.woff?v=4.0.3') format('woff'), 
+        url('./bower_components/font-awesome/fonts/fontawesome-webfont.ttf?v=4.0.3') format('truetype');
       font-weight: normal;
       font-style: normal;
     }
@@ -89,6 +89,11 @@
   <script type="text/javascript">
   (function(){
     "use strict";
+
+    var autolayouter = klay.init({
+      workerScript: "bower_components/klay-js/klay-worker.js"
+    });
+
     var fbp = require('fbp');
     var noflo = require('noflo');
     var fbpInput = document.getElementById('fbpinput');
