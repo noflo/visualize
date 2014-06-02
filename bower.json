@@ -23,6 +23,6 @@
     "tests"
   ],
   "dependencies": {
-    "the-graph": "~0.2.3"
+    "the-graph": "~0.2.4"
   }
 }

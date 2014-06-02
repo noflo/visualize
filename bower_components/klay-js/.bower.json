@@ -28,6 +28,6 @@
     "commit": "5dcfbde318870971959a3944380e466cae03e9f3"
   },
   "_source": "git://github.com/automata/klay-js.git",
-  "_target": "~0.0.6",
+  "_target": "~0.0.8",
   "_originalSource": "klay-js"
 }

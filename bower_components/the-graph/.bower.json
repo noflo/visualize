@@ -1,6 +1,6 @@
 {
   "name": "the-graph",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "keywords": [
     "graph",
     "flow",
@@ -12,7 +12,7 @@
     "hammerjs": "~1.1.2",
     "font-awesome": "~4.1.0",
     "react": "~0.10.0",
-    "klay-js": "~0.0.6"
+    "klay-js": "~0.0.8"
   },
   "license": "MIT",
   "ignore": [
@@ -25,14 +25,13 @@
     "tools"
   ],
   "homepage": "https://github.com/the-grid/the-graph",
-  "_release": "0.2.3",
+  "_release": "0.2.4",
   "_resolution": {
     "type": "version",
-    "tag": "0.2.3",
-    "commit": "2d372c21afaa5caecdbf1ab5659333bac426fe43"
+    "tag": "0.2.4",
+    "commit": "0af9b4301aab241f6a41ac8c9cbb4c7ed020005c"
   },
   "_source": "git://github.com/the-grid/the-graph.git",
-  "_target": "~0.2.3",
-  "_originalSource": "the-graph",
-  "_direct": true
+  "_target": "~0.2.4",
+  "_originalSource": "the-graph"
 }
