@@ -5,6 +5,38 @@
   <title>FBP graph visualizer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link rel="shortcut icon" href="/img/favicon.png" />
+
+  <!-- Bower libraries -->
+  <script src="./bower_components/platform/platform.js"></script>
+  <script src="./bower_components/react/react.js"></script>
+  <script src="./bower_components/klay-js/klay.js"></script>
+  <script src="./bower_components/hammerjs/hammer.js"></script>
+
+  <!-- Component libraries (require, noflo, fbp) -->
+  <script src="./browser/visualize.js"></script>
+  
+  <!-- Custom elements -->
+  <link rel="import" href="./bower_components/polymer/polymer.html" />
+  <link rel="import" href="./bower_components/the-graph/the-graph-editor/the-graph-editor.html" />
+  <!-- <link rel="import" href="./bower_components/the-graph/the-graph-nav/the-graph-nav.html" /> -->
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css" />
+  <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400' rel='stylesheet' type='text/css' />
+  <style>
+    @font-face {
+      /* we want the svg version */
+      font-family: 'FontAwesomeSVG';
+      src: url('../bower_components/font-awesome/fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg'),
+        url('../bower_components/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'), 
+        url('../bower_components/font-awesome/fonts/fontawesome-webfont.woff?v=4.0.3') format('woff'), 
+        url('../bower_components/font-awesome/fonts/fontawesome-webfont.ttf?v=4.0.3') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
+
+  <!-- Page style -->
   <style>
     body {
       padding: 0;
@@ -32,23 +64,15 @@
     #fbperror {
       color: red;
     }
+    the-graph-editor {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 100px;
+      left: 0;
+      background-color: black;
+    }
   </style>
-  <link rel="stylesheet" href="css/the-graph-svg.css">
-
-  <script src="js/klaygwt/klaygwt.nocache.js"></script>
-  <script src="js/kieler-interface.js"></script>
-
-  <script src="js/react-0.8.0.js"></script>
-
-  <script src="js/fbp.js"></script>
-  <script src="js/the-graph.js"></script>
-  <script src="js/the-graph-graph.js"></script>
-  <script src="js/the-graph-edge.js"></script>
-  <script src="js/font-awesome-unicode-map.js"></script>
-  <script src="js/the-graph-node.js"></script>
-  <script src="js/the-graph-group.js"></script>
-  <script src="js/the-graph-port.js"></script>
-  <script src="js/the-graph-tooltip.js"></script>
 
 </head>
 <body>
@@ -56,105 +80,66 @@
     <div id="fbperror"></div>
     <textarea id="fbpinput" placeholder="Type your FBP here"></textarea>
   </div>
-  <div id="app"></div>
+  <the-graph-editor id="editor" 
+    width="800" height="600" 
+    grid="72" 
+    snap="36" 
+    theme="dark">
+  </the-graph-editor>
   <script type="text/javascript">
   (function(){
-     "use strict";
-     var fbp = require('fbp');
-     var fbpInput = document.getElementById('fbpinput');
-     var fbpError = document.getElementById('fbperror');
-     window.visualize = function () {
-       var fbpString = fbpInput.value.trim();
-       try {
-         var graphData = fbp.parse(fbpString);
-         fbpError.innerHTML = '';
-         loadGraph(graphData);
-         new KielerOptions().apply();
-       } catch (e) {
-         console.log(e);
-         fbpError.innerHTML = e.message;
-       }
-     };
-
-     fbpInput.addEventListener('keyup', function (event) {
-       if (event.keyCode === 13) {
-         visualize();
-       }
-     });
-     fbpInput.addEventListener('blur', function (event) {
-       visualize();
-     });
-
-     var app = null;
-     window.loadGraph = function (graph) {
-       if (!app) {
-         var width = window.innerWidth;
-         var height = window.innerHeight;
-
-         app = React.renderComponent(
-           TheGraph.App({
-             graph: graph,
-             width: width,
-             height: height
-           }),
-           document.getElementById('app')
-         );
-         window.addEventListener('resize', function(){
-           width = window.innerWidth;
-           height = window.innerHeight;
-           app.setState({
-             width: width,
-             height: height
-           });
-         });
-       } else {
-         app.refs.graph.setState({
-           graph: graph
-         });
-         app.refs.graph.dirty = true;
-       }
+    "use strict";
+    var fbp = require('fbp');
+    var noflo = require('noflo');
+    var fbpInput = document.getElementById('fbpinput');
+    var fbpError = document.getElementById('fbperror');
+    var visualize = function () {
+      var fbpString = fbpInput.value.trim();
+      try {
+        var graphData = fbp.parse(fbpString);
+        fbpError.innerHTML = '';
+        loadGraph(graphData);
+        // new KielerOptions().apply();
+      } catch (e) {
+        console.log(e);
+        fbpError.innerHTML = e.message;
+      }
     };
 
-      var KielerOptions = function () {
-        // standard Kieler options
-        this['de.cau.cs.kieler.alignment'] = 'AUTOMATIC';
-        this['de.cau.cs.kieler.aspectRatio'] = 1.6;
-        this['de.cau.cs.kieler.borderSpacing'] = 12;
-        this['de.cau.cs.kieler.debugMode'] = false;
-        this['de.cau.cs.kieler.direction'] = 'RIGHT';
-        this['de.cau.cs.kieler.edgeRouting'] = 'POLYLINE';
-        this['de.cau.cs.kieler.layoutHierarchy'] = true;
-        // this.nodeLabelPlacement = ???
-        this['de.cau.cs.kieler.portConstraints'] = 'UNDEFINED';
-        this['de.cau.cs.kieler.portLabelPlacement'] = 'OUTSIDE';
-        this['de.cau.cs.kieler.priority'] = 1;
-        this['de.cau.cs.kieler.randomSeed'] = 1;
-        this['de.cau.cs.kieler.separateConnComp'] = true;
-        // this.sizeConstraint = ???
-        //this['de.cau.cs.kieler.sizeOptions'] = 'DEFAULT_MINIMUM_SIZE';
-        this['de.cau.cs.kieler.spacing'] = 20.0;
-        
-        // klay layered options
-        this['de.cau.cs.kieler.klay.layered.crossMin'] = 'LAYER_SWEEP';        
-        this['de.cau.cs.kieler.klay.layered.cycleBreaking'] = 'GREEDY';
-        this['de.cau.cs.kieler.klay.layered.edgeSpacingFactor'] = 0.5;
-        this['de.cau.cs.kieler.klay.layered.feedBackEdges'] = false;
-        this['de.cau.cs.kieler.klay.layered.fixedAlignment'] = 'NONE';
-        this['de.cau.cs.kieler.klay.layered.inLayerSpacingFactor'] = 1;
-        //this['de.cau.cs.kieler.klay.layered.interactiveReferencePoint'] = 'CENTER';
-        //this['de.cau.cs.kieler.klay.layered.LabelSide'] = 'SMART';
-        this['de.cau.cs.kieler.klay.layered.layerConstraint'] = 'NONE';
-        this['de.cau.cs.kieler.klay.layered.mergePorts'] = false;
-        this['de.cau.cs.kieler.klay.layered.nodeLayering'] = 'NETWORK_SIMPLEX';
-        this['de.cau.cs.kieler.klay.layered.nodePlace'] = 'LINEAR_SEGMENTS'; // BRANDES_KOEPF is not working on klaygwt
-        this['de.cau.cs.kieler.klay.layered.thoroughness'] = 7;
+    fbpInput.addEventListener('keyup', function (event) {
+      if (event.keyCode === 13) {
+        visualize();
+      }
+    });
+    fbpInput.addEventListener('blur', function (event) {
+      visualize();
+    });
 
-        this.apply = function () {
-          var that = this;
-          var event = new CustomEvent("kieler", { detail: that });
-          window.dispatchEvent(event);
-        };
+    var editor = document.getElementById('editor');
+
+    var loadGraph = function (graph) {
+      noflo.graph.loadJSON(graph, function (nofloGraph) {
+        editor.graph = nofloGraph;
+        setTimeout(function(){
+          editor.triggerAutolayout();
+        }, 150);
+      });
+    };
+
+    window.addEventListener('polymer-ready', function() {
+      "use strict";
+
+      // Size to screen
+      var onResize = function (event) {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        editor.width = width;
+        editor.height = height - 100;
       };
+      window.addEventListener('resize', onResize);
+      onResize();
+    });
+
   })();
   </script>
 </body>

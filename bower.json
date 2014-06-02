@@ -1,0 +1,28 @@
+{
+  "name": "visualize",
+  "version": "0.1.0",
+  "homepage": "https://github.com/noflo/visualize",
+  "description": "simple FBP visualizer for flow-based programming DSL graphs",
+  "main": "index.html",
+  "keywords": [
+    "fbp",
+    "noflo",
+    "graph"
+  ],
+  "authors": [
+    "Henri Bergius",
+    "Forrest Oliphant",
+    "Vilson Viera"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "the-graph": "~0.2.3"
+  }
+}

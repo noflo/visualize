@@ -1,0 +1,38 @@
+{
+  "name": "the-graph",
+  "version": "0.2.3",
+  "keywords": [
+    "graph",
+    "flow",
+    "noflo"
+  ],
+  "description": "HTML custom elements for dataflow graph editing",
+  "dependencies": {
+    "polymer": "Polymer/polymer#0.2.4",
+    "hammerjs": "~1.1.2",
+    "font-awesome": "~4.1.0",
+    "react": "~0.10.0",
+    "klay-js": "~0.0.6"
+  },
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "docs",
+    "tools"
+  ],
+  "homepage": "https://github.com/the-grid/the-graph",
+  "_release": "0.2.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.2.3",
+    "commit": "2d372c21afaa5caecdbf1ab5659333bac426fe43"
+  },
+  "_source": "git://github.com/the-grid/the-graph.git",
+  "_target": "~0.2.3",
+  "_originalSource": "the-graph",
+  "_direct": true
+}

@@ -1,0 +1,33 @@
+{
+  "name": "klay-js",
+  "version": "0.0.8",
+  "homepage": "https://github.com/automata/klay-js",
+  "authors": [
+    "Vilson Vieira <vilson@void.cc>"
+  ],
+  "description": "Component to KIELER/KLay Layered JavaScript",
+  "main": "klay.js",
+  "keywords": [
+    "autolayout",
+    "graph",
+    "gwt",
+    "webworker"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.0.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.8",
+    "commit": "5dcfbde318870971959a3944380e466cae03e9f3"
+  },
+  "_source": "git://github.com/automata/klay-js.git",
+  "_target": "~0.0.6",
+  "_originalSource": "klay-js"
+}

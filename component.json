@@ -1,0 +1,12 @@
+{
+  "name": "visualize",
+  "description": "FBP DSL dataflow graph visualizer",
+  "dependencies": {
+    "noflo/noflo": "*",
+    "noflo/fbp": "*"
+  },
+  "remotes": [
+    "https://raw.githubusercontent.com"
+  ],
+  "license": "MIT"
+}
