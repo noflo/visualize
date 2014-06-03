@@ -90,12 +90,17 @@
   (function(){
     "use strict";
 
-    window.KLAY_SETUP = { workerScript: "./bower_components/klay-js/klay-worker.js" };
+    // Setup
+    window.KLAY_CONFIG = { workerScript: "./bower_components/klay-js/klay-worker.js" };
 
     var fbp = require('fbp');
     var noflo = require('noflo');
     var fbpInput = document.getElementById('fbpinput');
     var fbpError = document.getElementById('fbperror');
+
+    // Focus input
+    fbpInput.focus();
+
     var visualize = function () {
       var fbpString = fbpInput.value.trim();
       try {

@@ -37,8 +37,8 @@ var klay = (function () {
         callback = console.log;
       }
 
-      if ("KLAY_SETUP" in window && "workerScript" in window.KLAY_SETUP) {
-        workerScript = window.KLAY_SETUP.workerScript;
+      if ("KLAY_CONFIG" in window && "workerScript" in window.KLAY_CONFIG) {
+        workerScript = window.KLAY_CONFIG.workerScript;
       } else if ("workerScript" in params) {
         workerScript = params.workerScript;
       } else {
