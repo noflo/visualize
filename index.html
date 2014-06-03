@@ -72,6 +72,11 @@
       left: 0;
       background-color: black;
     }
+    #example {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
   </style>
 
 </head>
@@ -80,6 +85,7 @@
     <div id="fbperror"></div>
     <textarea id="fbpinput" placeholder="Type your FBP here"></textarea>
   </div>
+  <button title="load example graph" id="example">?</button>
   <the-graph-editor id="editor" 
     width="800" height="600" 
     grid="72" 
@@ -97,6 +103,8 @@
     var noflo = require('noflo');
     var fbpInput = document.getElementById('fbpinput');
     var fbpError = document.getElementById('fbperror');
+    var editor = document.getElementById('editor');
+    var example = document.getElementById('example');
 
     // Focus input
     fbpInput.focus();
@@ -123,9 +131,18 @@
       visualize();
     });
 
-    var editor = document.getElementById('editor');
-
     var loadGraph = function (graph) {
+      if (graph.processes) {
+        var keys = Object.keys(graph.processes);
+        for (var i=0; i<keys.length; i++) {
+          var process = graph.processes[keys[i]];
+          if (!process.component) {
+            process.component = "c_" + Math.round(Math.random()*999);
+            console.log(process.component);
+          }
+        }
+      }
+      console.log(graph);
       noflo.graph.loadJSON(graph, function (nofloGraph) {
         editor.graph = nofloGraph;
         setTimeout(function(){
@@ -133,6 +150,13 @@
         }, 150);
       });
     };
+
+    example.addEventListener('click', function (event) {
+      fbpInput.value = 
+        "Process1(Component1) OUT -> IN Process2(c2)\n"+
+        "Process1 ERROR -> IN Process3(c3)";
+      visualize();
+    });
 
     window.addEventListener('polymer-ready', function() {
       "use strict";
