@@ -36,11 +36,15 @@ var klay = (function () {
       } else {
         callback = console.log;
       }
-      if ("workerScript" in params) {
+
+      if ("KLAY_SETUP" in window && "workerScript" in window.KLAY_SETUP) {
+        workerScript = window.KLAY_SETUP.workerScript;
+      } else if ("workerScript" in params) {
         workerScript = params.workerScript;
       } else {
         workerScript = "klay-worker.js";
       }
+
       // Start the WebWorker
       worker = new Worker(workerScript);
       // Register a listener to default WebWorker event, calling
