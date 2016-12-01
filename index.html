@@ -9,6 +9,12 @@
   <!-- Bower libraries -->
   <script src="./bower_components/platform/platform.js"></script>
   <script src="./bower_components/react/react.js"></script>
+  <script>
+    // Setup
+    window.KLAY_CONFIG = {
+      workerScript: "./bower_components/klay-js/klay-worker.js"
+    };
+  </script>
   <script src="./bower_components/klay-js/klay.js"></script>
   <script src="./bower_components/hammerjs/hammer.js"></script>
 
@@ -96,8 +102,6 @@
   (function(){
     "use strict";
 
-    // Setup
-    window.KLAY_CONFIG = { workerScript: "./bower_components/klay-js/klay-worker.js" };
 
     var fbp = require('fbp');
     var noflo = require('noflo');
