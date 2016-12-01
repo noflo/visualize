@@ -143,7 +143,10 @@
         }
       }
       console.log(graph);
-      noflo.graph.loadJSON(graph, function (nofloGraph) {
+      noflo.graph.loadJSON(graph, function (err, nofloGraph) {
+        if (err) {
+          fbpError.innerHTML = e.message;
+        }
         editor.graph = nofloGraph;
         setTimeout(function(){
           editor.triggerAutolayout();

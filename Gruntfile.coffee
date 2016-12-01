@@ -7,7 +7,7 @@ module.exports = ->
     noflo_browser:
       build:
         files:
-          'browser/visualize.js': ['component.json']
+          'browser/visualize.js': ['entry.js']
 
   # Grunt plugins used for building
   @loadNpmTasks 'grunt-noflo-browser'
