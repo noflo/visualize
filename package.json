@@ -1,7 +1,7 @@
 {
-  "name": "visualize",
+  "name": "fbp-visualize",
   "description": "FBP DSL dataflow graph visualizer",
-  "homepage": "http://noflojs.org/",
+  "homepage": "http://noflojs.org/visualize",
   "author": "Henri Bergius <henri.bergius@iki.fi>",
   "contributors": [
     "Forrest Oliphant"
@@ -16,15 +16,11 @@
     "noflo": "^0.7.9"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-cli": "~0.1.7",
-    "grunt-cafe-mocha": "~0.1.2",
-    "grunt-contrib-watch": "~0.3.1",
-    "grunt-contrib-connect": "~0.6.0",
-    "grunt-noflo-browser": "^0.1.2"
+    "grunt": "~1.0.1",
+    "grunt-noflo-browser": "^1.0.1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/noflo/noflo.git"
+    "url": "git://github.com/noflo/visualize.git"
   }
 }
