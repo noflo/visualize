@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "grunt": "~1.0.1",
-    "grunt-noflo-browser": "^1.0.1"
+    "grunt-noflo-browser": "^1.2.0"
   },
   "repository": {
     "type": "git",
