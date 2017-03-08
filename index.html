@@ -7,6 +7,7 @@
   <link rel="shortcut icon" href="/img/favicon.png" />
 
   <!-- Bower libraries -->
+  <script src="./bower_components/ace-builds/src/ace.js"></script>
   <script src="./bower_components/platform/platform.js"></script>
   <script src="./bower_components/react/react.js"></script>
   <script>
@@ -20,7 +21,7 @@
 
   <!-- Component libraries (require, noflo, fbp) -->
   <script src="./browser/visualize.js"></script>
-  
+
   <!-- Custom elements -->
   <link rel="import" href="./bower_components/polymer/polymer.html" />
   <link rel="import" href="./bower_components/the-graph/the-graph-editor/the-graph-editor.html" />
@@ -34,8 +35,8 @@
       /* we want the svg version */
       font-family: 'FontAwesomeSVG';
       src: url('./bower_components/font-awesome/fonts/fontawesome-webfont.svg?v=4.0.3#fontawesomeregular') format('svg'),
-        url('./bower_components/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'), 
-        url('./bower_components/font-awesome/fonts/fontawesome-webfont.woff?v=4.0.3') format('woff'), 
+        url('./bower_components/font-awesome/fonts/fontawesome-webfont.eot?#iefix&v=4.0.3') format('embedded-opentype'),
+        url('./bower_components/font-awesome/fonts/fontawesome-webfont.woff?v=4.0.3') format('woff'),
         url('./bower_components/font-awesome/fonts/fontawesome-webfont.ttf?v=4.0.3') format('truetype');
       font-weight: normal;
       font-style: normal;
@@ -64,6 +65,7 @@
       box-sizing: border-box;
     }
     #fbpinput {
+      position: absolute;
       width: 100%;
       height: 100%;
     }
@@ -89,13 +91,13 @@
 <body>
   <div id="fbp">
     <div id="fbperror"></div>
-    <textarea id="fbpinput" placeholder="Type your FBP here"></textarea>
+    <div id="fbpinput"></div>
   </div>
   <button title="load example graph" id="example">?</button>
-  <the-graph-editor id="editor" 
-    width="800" height="600" 
-    grid="72" 
-    snap="36" 
+  <the-graph-editor id="editor"
+    width="800" height="600"
+    grid="72"
+    snap="36"
     theme="dark">
   </the-graph-editor>
   <script type="text/javascript">
@@ -110,11 +112,20 @@
     var editor = document.getElementById('editor');
     var example = document.getElementById('example');
 
-    // Focus input
-    fbpInput.focus();
+    // text editor
+    var aceEditor = ace.edit("fbpinput");
+    aceEditor.getSession().setMode("ace/mode/fbp");
+    aceEditor.setAutoScrollEditorIntoView(true);
 
-    var visualize = function () {
-      var fbpString = fbpInput.value.trim();
+    var previousFbpString;
+    var visualize = function (event) {
+      var fbpString = aceEditor.getValue().trim().replace(/\n+/gm, "\n")
+      if (previousFbpString !== fbpString) {
+        previousFbpString = fbpString
+      } else {
+        return;
+      }
+
       try {
         var graphData = fbp.parse(fbpString);
         fbpError.innerHTML = '';
@@ -126,14 +137,13 @@
       }
     };
 
-    fbpInput.addEventListener('keyup', function (event) {
-      if (event.keyCode === 13) {
+    aceEditor.getSession().on('change', function(event) {
+      if (event.action === "insert" && event.lines.length > 1) {
         visualize();
       }
     });
-    fbpInput.addEventListener('blur', function (event) {
-      visualize();
-    });
+
+    aceEditor.on('blur', visualize)
 
     var loadGraph = function (graph) {
       if (graph.processes) {
@@ -159,9 +169,8 @@
     };
 
     example.addEventListener('click', function (event) {
-      fbpInput.value = 
-        "Process1(Component1) OUT -> IN Process2(c2)\n"+
-        "Process1 ERROR -> IN Process3(c3)";
+      aceEditor.setValue("Process1(Component1) OUT -> IN Process2(c2)\n"+
+        "Process1 ERROR -> IN Process3(c3)");
       visualize();
     });
 
