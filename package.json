@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "fbp": "^1.7.0",
-    "noflo": "^0.8.0"
+    "noflo": "^1.0.3"
   },
   "devDependencies": {
     "grunt": "~1.0.1",
