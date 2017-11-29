@@ -22,5 +22,8 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/noflo/visualize.git"
+  },
+  "scripts": {
+    "add_texteditor": "bower install ace-builds && cp browser/mode-fbp.js bower_components/ace-builds/src"
   }
 }
